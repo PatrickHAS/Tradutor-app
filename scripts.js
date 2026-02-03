@@ -8,7 +8,7 @@ async function traduzir() {
   let url =
     "https://api.mymemory.translated.net/get?q=" +
     encodeURIComponent(inputTexto.value) +
-    "&langpair=pt-BR|" +
+    "&langpair=autodetect|" +
     idiomaDestino;
 
   let resposta = await fetch(url);
@@ -21,14 +21,13 @@ async function traduzir() {
 function ouvirVoz() {
   let voz = window.SpeechRecognition || window.webkitSpeechRecognition;
 
-  if (!SpeechRecognition) {
+  if (!voz) {
     alert("Reconhecimento de voz não suportado neste navegador");
     return;
   }
 
   let reconhecimento = new voz();
-
-  reconhecimento.lang = "pt-BR";
+  reconhecimento.interimResults = false;
 
   reconhecimento.onresult = (evento) => {
     let texto = evento.results[0][0].transcript;
